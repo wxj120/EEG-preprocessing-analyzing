@@ -9,24 +9,24 @@ close all; clear all; clc;
 % addpath(genpath(ft_path));
 
 % load the eeg data
-Input_datapath = 'E:\Wxj硕博课题\Project01\预处理数据\健康对照组\rest\open\Final3min\';
+Input_datapath = '预处理后保存的数据路径\';
 Input_data = dir(fullfile(Input_datapath,'*.set')); 
 FileNames = sort_nat(cellstr({Input_data.name}.'));
 
 % save functional connectivity matrix of each subject
-COHsavepath = 'E:\Wxj硕博课题\Project01\三组比较结果\rest\FC_undir_hilbert\COH\open\HC\';
-IMCOHsavepath = 'E:\Wxj硕博课题\Project01\三组比较结果\rest\FC_undir_hilbert\IMCOH\open\HC\';
-PLVsavepath =  'E:\Wxj硕博课题\Project01\三组比较结果\rest\FC_undir_hilbert\PLV\open\HC\';
-PLIsavepath = 'E:\Wxj硕博课题\Project01\三组比较结果\rest\FC_undir_hilbert\PLI\open\HC\';
-WPLIsavepath = 'E:\Wxj硕博课题\Project01\三组比较结果\rest\FC_undir_hilbert\WPLI\open\HC\';
+COHsavepath = '结果存放路径\';
+IMCOHsavepath = '结果存放路径\';
+PLVsavepath =  '结果存放路径\';
+PLIsavepath = '结果存放路径\';
+WPLIsavepath = '结果存放路径\';
 
 %%%%%%%%%%%%%%%%%%%%% compute COH & IMCOH (coherence) %%%%%%%%%%%%%%%%%%%%%
 for subj = 1:numel(FileNames)  
-    % 导入eeg数据
+    % load eeg data
     EEG = pop_loadset('filename',FileNames{subj},'filepath',Input_datapath);
-    % 导入数据重新分段
+    % redefine the eeg data
     EEG = eeg_regepochs(EEG, 'recurrence', 4, 'limits',[0 4], 'rmbase',NaN,'eventtype','o');
-    % FFT参数设置
+    % FFT parameters
     N = EEG.pnts;
     SampleRate = EEG.srate;
     NFFT = 2^nextpow2(N);
